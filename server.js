@@ -1,20 +1,22 @@
 
 const express = require('express');
-const fs = require('fs');
 var uniqid = require('uniqid');
+const fs = require('fs');
 const util = require('util');
 
 
 // initiate express 
 const app = express();
 
+// port where the app will be listening
 const PORT = process.env.PORT || 3002;
 
+// requiring the json file
 let db = require('./db/db.json');
 
 app.use(express.static('public'));
 
-// Define function to write JSON file
+// Function to withe the Json
 
 const writeToFile = (destination, content) =>
   fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
@@ -32,7 +34,7 @@ app.get('/api/notes', (req, res) => res.json(db));
 
 app.get('/notes', (req, res) => {res.sendFile(__dirname + '/public/notes.html')});
 
-  
+  // where the notes are sent to the json endpoint
 app.post('/api/notes', (req, res) => {
     const { title, text } = req.body
 
@@ -52,6 +54,7 @@ app.post('/api/notes', (req, res) => {
     }
 })
 
+// delete route 
 app.delete(`/api/notes/:id`, (req, res) => {
   const deleteNote = req.params.id;
 
