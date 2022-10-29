@@ -52,6 +52,16 @@ app.post('/api/notes', (req, res) => {
     }
 })
 
+app.delete(`/api/notes/:id`, (req, res) => {
+  const deleteNote = req.params.id;
+
+  db = db.filter((note) => note.id != deleteNote )
+  
+  writeToFile('./db/db.json',db)
+  res.json('Note Deleted successfully');
+
+})
+
 
 
 app.listen(PORT, () =>
